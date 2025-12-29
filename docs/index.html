@@ -134,6 +134,34 @@
             font-weight: 600;
         }
 
+
+        .view-mode-toggle {
+            display: flex;
+            gap: 5px;
+            margin: 10px 20px;
+            padding: 8px;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+
+        .view-mode-btn {
+            flex: 1;
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .view-mode-btn.active {
+            background: #0078d4;
+            color: white;
+            border-color: #0078d4;
+        }
+
         /* 메인 콘텐츠 */
         .content {
             flex: 1;
@@ -359,6 +387,17 @@
                 position: sticky;
                 top: 0;
             }
+
+
+            .view-mode-toggle {
+                margin: 10px;
+                padding: 6px;
+            }
+
+            .view-mode-btn {
+                font-size: 11px;
+                padding: 5px 8px;
+            }
         }
 
         /* 로딩 상태 */
@@ -405,32 +444,71 @@
     <script>
         // 문서 목록 (short 폴더 기준)
         const documents = [
-            { id: '01', name: 'Azure의 AI 소개', file: 'short/01_Azure의_AI_소개.md' },
-            { id: '02', name: 'Microsoft Foundry에서 AI 시작', file: 'short/02_Microsoft_Foundry에서_AI_시작.md' },
-            { id: '03', name: '기계 학습 개념 소개', file: 'short/03_기계_학습_개념_소개.md' },
-            { id: '04', name: 'Azure에서 기계 학습 시작', file: 'short/04_Azure에서_기계_학습_시작.md' },
-            { id: '05', name: '생성형 AI 및 Agent 소개', file: 'short/05_생성형_AI_및_Agent_소개.md' },
-            { id: '06', name: 'Microsoft Foundry에서 생성형 AI를 시작하기', file: 'short/06_Microsoft_Foundry에서_생성형_AI를_시작하기.md' },
-            { id: '07', name: '텍스트 분석 개념 소개', file: 'short/07_텍스트_분석_개념_소개.md' },
-            { id: '08', name: 'Microsoft Foundry에서 자연어 처리 시작', file: 'short/08_Microsoft_Foundry에서_자연어_처리_시작.md' },
-            { id: '09', name: 'AI 음성 개념 소개', file: 'short/09_AI_음성_개념_소개.md' },
-            { id: '10', name: 'Microsoft Foundry에서 음성 시작', file: 'short/10_Microsoft_Foundry에서_음성_시작.md' },
-            { id: '11', name: 'Computer Vision 개념 소개', file: 'short/11_Computer_Vision_개념_소개.md' },
-            { id: '12', name: 'Microsoft Foundry에서 Computer Vision 시작', file: 'short/12_Microsoft_Foundry에서_Computer_Vision_시작.md' },
-            { id: '13', name: 'AI 기반 정보 추출 개념 소개', file: 'short/13_AI_기반_정보_추출_개념_소개.md' },
-            { id: '14', name: 'Microsoft Foundry에서 AI 기반 정보 추출 시작', file: 'short/14_Microsoft_Foundry에서_AI_기반_정보_추출_시작.md' }
+            { id: '01', name: 'Azure의 AI 소개', short: 'short/01_Azure의_AI_소개.md', original: 'md/01_Azure의_AI_소개.md' },
+            { id: '02', name: 'Microsoft Foundry에서 AI 시작', short: 'short/02_Microsoft_Foundry에서_AI_시작.md', original: 'md/02_Microsoft_Foundry에서_AI_시작.md' },
+            { id: '03', name: '기계 학습 개념 소개', short: 'short/03_기계_학습_개념_소개.md', original: 'md/03_기계_학습_개념_소개.md' },
+            { id: '04', name: 'Azure에서 기계 학습 시작', short: 'short/04_Azure에서_기계_학습_시작.md', original: 'md/04_Azure에서_기계_학습_시작.md' },
+            { id: '05', name: '생성형 AI 및 Agent 소개', short: 'short/05_생성형_AI_및_Agent_소개.md', original: 'md/05_생성형_AI_및_Agent_소개.md' },
+            { id: '06', name: 'Microsoft Foundry에서 생성형 AI를 시작하기', short: 'short/06_Microsoft_Foundry에서_생성형_AI를_시작하기.md', original: 'md/06_Microsoft_Foundry에서_생성형_AI를_시작하기.md' },
+            { id: '07', name: '텍스트 분석 개념 소개', short: 'short/07_텍스트_분석_개념_소개.md', original: 'md/07_텍스트_분석_개념_소개.md' },
+            { id: '08', name: 'Microsoft Foundry에서 자연어 처리 시작', short: 'short/08_Microsoft_Foundry에서_자연어_처리_시작.md', original: 'md/08_Microsoft_Foundry에서_자연어_처리_시작.md' },
+            { id: '09', name: 'AI 음성 개념 소개', short: 'short/09_AI_음성_개념_소개.md', original: 'md/09_AI_음성_개념_소개.md' },
+            { id: '10', name: 'Microsoft Foundry에서 음성 시작', short: 'short/10_Microsoft_Foundry에서_음성_시작.md', original: 'md/10_Microsoft_Foundry에서_음성_시작.md' },
+            { id: '11', name: 'Computer Vision 개념 소개', short: 'short/11_Computer_Vision_개념_소개.md', original: 'md/11_Computer_Vision_개념_소개.md' },
+            { id: '12', name: 'Microsoft Foundry에서 Computer Vision 시작', short: 'short/12_Microsoft_Foundry에서_Computer_Vision_시작.md', original: 'md/12_Microsoft_Foundry에서_Computer_Vision_시작.md' },
+            { id: '13', name: 'AI 기반 정보 추출 개념 소개', short: 'short/13_AI_기반_정보_추출_개념_소개.md', original: 'md/13_AI_기반_정보_추출_개념_소개.md' },
+            { id: '14', name: 'Microsoft Foundry에서 AI 기반 정보 추출 시작', short: 'short/14_Microsoft_Foundry에서_AI_기반_정보_추출_시작.md', original: 'md/14_Microsoft_Foundry에서_AI_기반_정보_추출_시작.md' }
         ];
+
+        // 현재 뷰 모드 (short 또는 original)
+        let currentViewMode = 'short';
 
         // 사이드바 생성
         function renderSidebar() {
             const sidebarList = document.getElementById('sidebarList');
-            sidebarList.innerHTML = documents.map(doc => `
-                <a href="#" class="sidebar-item" data-file="${doc.file}" data-id="${doc.id}">
-                    ${doc.id}. ${doc.name}
-                </a>
-            `).join('');
+            
+            // 뷰 모드 토글 추가
+            const viewModeToggle = `
+                <div class="view-mode-toggle">
+                    <button class="view-mode-btn ${currentViewMode === 'short' ? 'active' : ''}" data-mode="short">
+                        요약본
+                    </button>
+                    <button class="view-mode-btn ${currentViewMode === 'original' ? 'active' : ''}" data-mode="original">
+                        원본
+                    </button>
+                </div>
+            `;
+            
+            sidebarList.innerHTML = viewModeToggle + documents.map(doc => {
+                const file = currentViewMode === 'short' ? doc.short : doc.original;
+                return `
+                    <a href="#" class="sidebar-item" data-file="${file}" data-short="${doc.short}" data-original="${doc.original}" data-id="${doc.id}">
+                        ${doc.id}. ${doc.name}
+                    </a>
+                `;
+            }).join('');
 
-            // 클릭 이벤트
+            // 뷰 모드 토글 버튼 이벤트
+            sidebarList.querySelectorAll('.view-mode-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const mode = btn.getAttribute('data-mode');
+                    currentViewMode = mode;
+                    renderSidebar();
+                    // 현재 문서 다시 로드
+                    const activeItem = sidebarList.querySelector('.sidebar-item.active');
+                    if (activeItem) {
+                        const file = activeItem.getAttribute('data-file');
+                        loadDocument(file);
+                    } else if (documents.length > 0) {
+                        const firstDoc = documents[0];
+                        const file = mode === 'short' ? firstDoc.short : firstDoc.original;
+                        loadDocument(file);
+                    }
+                });
+            });
+
+            // 문서 항목 클릭 이벤트
             sidebarList.querySelectorAll('.sidebar-item').forEach(item => {
                 item.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -463,7 +541,11 @@
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
                 const markdown = await response.text();
-                const html = marked.parse(markdown);
+                
+                // 이미지 경로 수정: ../images/ -> images/ (원본 파일용)
+                const fixedMarkdown = markdown.replace(/!\[([^\]]*)\]\(\.\.\/images\/([^\)]+)\)/g, '![$1](images/$2)');
+                
+                const html = marked.parse(fixedMarkdown);
                 content.innerHTML = html;
                 
                 // 스크롤을 맨 위로
@@ -648,8 +730,13 @@ python3 -m http.server 8000</code></pre>
             
             // 기본으로 첫 번째 문서 로드
             if (documents.length > 0) {
-                loadDocument(documents[0].file);
-                document.querySelector('[data-id="01"]').classList.add('active');
+                const firstDoc = documents[0];
+                const file = currentViewMode === 'short' ? firstDoc.short : firstDoc.original;
+                loadDocument(file);
+                const firstItem = document.querySelector(`[data-id="${firstDoc.id}"]`);
+                if (firstItem) {
+                    firstItem.classList.add('active');
+                }
             }
         }
 
