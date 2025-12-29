@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MS AI-900 학습 자료</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: #000;
+            background: #f5f5f5;
+            padding: 0;
+        }
+
+        /* 다크 모드 지원 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #1a1a1a;
+                color: #000;
+            }
+            .sidebar {
+                background: #2a2a2a;
+                border-right: 1px solid #3a3a3a;
+            }
+            .sidebar-item {
+                color: #000;
+            }
+            .sidebar-item:hover {
+                background: #3a3a3a;
+            }
+            .content {
+                background: #fff;
+            }
+            .content h1, .content h2, .content h3 {
+                color: #000;
+            }
+            .content p {
+                color: #000;
+            }
+            .content code {
+                background: #f5f5f5;
+                color: #000;
+            }
+            .content pre {
+                background: #f5f5f5;
+            }
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 사이드바 */
+        .sidebar {
+            width: 280px;
+            background: #fff;
+            border-right: 1px solid #e0e0e0;
+            overflow-y: auto;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: #0078d4;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .sidebar-list {
+            padding: 10px 0;
+        }
+
+        .sidebar-item {
+            display: block;
+            padding: 12px 20px;
+            color: #000;
+            text-decoration: none;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+
+        .sidebar-item:hover {
+            background: #f5f5f5;
+        }
+
+        .sidebar-item.active {
+            background: #e3f2fd;
+            color: #0078d4;
+            font-weight: 600;
+        }
+
+        /* 메인 콘텐츠 */
+        .content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 40px;
+            max-width: 900px;
+            background: #fff;
+        }
+
+        .content h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0078d4;
+            color: #000;
+        }
+
+        .content h2 {
+            font-size: 24px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #000;
+        }
+
+        .content h3 {
+            font-size: 20px;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            color: #000;
+        }
+
+        .content p {
+            margin-bottom: 15px;
+            color: #000;
+        }
+
+        .content ul, .content ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .content li {
+            margin-bottom: 8px;
+        }
+
+        .content code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .content pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        .content pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .content blockquote {
+            border-left: 4px solid #0078d4;
+            padding-left: 15px;
+            margin-left: 0;
+            color: #000;
+            font-style: italic;
+        }
+
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .content table th,
+        .content table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .content table th {
+            background: #f5f5f5;
+            font-weight: 600;
+        }
+
+        /* 모바일 반응형 */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                max-height: 300px;
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .content h1 {
+                font-size: 24px;
+            }
+
+            .content h2 {
+                font-size: 20px;
+            }
+
+            .content h3 {
+                font-size: 18px;
+            }
+
+            .sidebar-header {
+                position: sticky;
+                top: 0;
+            }
+        }
+
+        /* 로딩 상태 */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #000;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 사이드바 -->
+        <nav class="sidebar">
+            <div class="sidebar-header">📚 MS AI-900 학습 자료</div>
+            <div class="sidebar-list" id="sidebarList">
+                <!-- 동적으로 생성됨 -->
+            </div>
+        </nav>
+
+        <!-- 메인 콘텐츠 -->
+        <main class="content" id="content">
+            <div class="loading">문서를 불러오는 중...</div>
+        </main>
+    </div>
+
+    <script>
+        // 문서 목록 (short 폴더 기준)
+        const documents = [
+            { id: '01', name: 'Azure의 AI 소개', file: 'short/01_Azure의_AI_소개.md' },
+            { id: '02', name: 'Microsoft Foundry에서 AI 시작', file: 'short/02_Microsoft_Foundry에서_AI_시작.md' },
+            { id: '03', name: '기계 학습 개념 소개', file: 'short/03_기계_학습_개념_소개.md' },
+            { id: '04', name: 'Azure에서 기계 학습 시작', file: 'short/04_Azure에서_기계_학습_시작.md' },
+            { id: '05', name: '생성형 AI 및 Agent 소개', file: 'short/05_생성형_AI_및_Agent_소개.md' },
+            { id: '06', name: 'Microsoft Foundry에서 생성형 AI를 시작하기', file: 'short/06_Microsoft_Foundry에서_생성형_AI를_시작하기.md' },
+            { id: '07', name: '텍스트 분석 개념 소개', file: 'short/07_텍스트_분석_개념_소개.md' },
+            { id: '08', name: 'Microsoft Foundry에서 자연어 처리 시작', file: 'short/08_Microsoft_Foundry에서_자연어_처리_시작.md' },
+            { id: '09', name: 'AI 음성 개념 소개', file: 'short/09_AI_음성_개념_소개.md' },
+            { id: '10', name: 'Microsoft Foundry에서 음성 시작', file: 'short/10_Microsoft_Foundry에서_음성_시작.md' },
+            { id: '11', name: 'Computer Vision 개념 소개', file: 'short/11_Computer_Vision_개념_소개.md' },
+            { id: '12', name: 'Microsoft Foundry에서 Computer Vision 시작', file: 'short/12_Microsoft_Foundry에서_Computer_Vision_시작.md' },
+            { id: '13', name: 'AI 기반 정보 추출 개념 소개', file: 'short/13_AI_기반_정보_추출_개념_소개.md' },
+            { id: '14', name: 'Microsoft Foundry에서 AI 기반 정보 추출 시작', file: 'short/14_Microsoft_Foundry에서_AI_기반_정보_추출_시작.md' }
+        ];
+
+        // 사이드바 생성
+        function renderSidebar() {
+            const sidebarList = document.getElementById('sidebarList');
+            sidebarList.innerHTML = documents.map(doc => `
+                <a href="#" class="sidebar-item" data-file="${doc.file}" data-id="${doc.id}">
+                    ${doc.id}. ${doc.name}
+                </a>
+            `).join('');
+
+            // 클릭 이벤트
+            sidebarList.querySelectorAll('.sidebar-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const file = item.getAttribute('data-file');
+                    loadDocument(file);
+                    
+                    // 활성 상태 업데이트
+                    sidebarList.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                });
+            });
+        }
+
+        // 문서 로드
+        async function loadDocument(file) {
+            const content = document.getElementById('content');
+            content.innerHTML = '<div class="loading">문서를 불러오는 중...</div>';
+
+            try {
+                // 프로토콜 확인
+                if (window.location.protocol === 'file:') {
+                    throw new Error('파일을 직접 열 수 없습니다. HTTP 서버를 통해 접근해주세요.\n\n터미널에서 다음 명령어를 실행하세요:\ncd docs\npython3 -m http.server 8000\n\n그 후 브라우저에서 http://localhost:8000 접속');
+                }
+                
+                // 한글 파일명을 올바르게 인코딩 (경로 구분자는 인코딩하지 않음)
+                const encodedFile = file.split('/').map(part => encodeURIComponent(part)).join('/');
+                
+                const response = await fetch(encodedFile);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                const markdown = await response.text();
+                const html = marked.parse(markdown);
+                content.innerHTML = html;
+                
+                // 스크롤을 맨 위로
+                window.scrollTo(0, 0);
+            } catch (error) {
+                content.innerHTML = `
+                    <div class="error">
+                        <h2>오류 발생</h2>
+                        <p><strong>${error.message}</strong></p>
+                        <p>파일 경로: ${file}</p>
+                        <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
+                        <h3>해결 방법:</h3>
+                        <ol style="margin-left: 20px;">
+                            <li>터미널에서 <code>docs</code> 폴더로 이동</li>
+                            <li><code>python3 -m http.server 8000</code> 실행</li>
+                            <li>브라우저에서 <code>http://localhost:8000</code> 접속</li>
+                        </ol>
+                    </div>
+                `;
+            }
+        }
+
+        // 서버 연결 확인
+        async function checkServer() {
+            try {
+                const testFile = 'short/01_Azure의_AI_소개.md';
+                const response = await fetch(testFile, { method: 'HEAD' });
+                return response.ok;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        // 초기화
+        async function init() {
+            // 서버 확인
+            if (window.location.protocol === 'file:') {
+                document.getElementById('content').innerHTML = `
+                    <div class="error">
+                        <h2>⚠️ 파일을 직접 열 수 없습니다</h2>
+                        <p>이 페이지는 HTTP 서버를 통해 접근해야 합니다.</p>
+                        <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
+                        <h3>📋 실행 방법:</h3>
+                        <ol style="margin-left: 20px; line-height: 2;">
+                            <li>터미널을 엽니다</li>
+                            <li><code>cd /Users/sjlee/study/ms-ai-900/docs</code> 실행</li>
+                            <li><code>python3 -m http.server 8000</code> 실행</li>
+                            <li>브라우저에서 <strong><a href="http://localhost:8000" style="color: #0078d4;">http://localhost:8000</a></strong> 접속</li>
+                        </ol>
+                        <p style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 5px;">
+                            💡 <strong>팁:</strong> 서버가 실행 중이면 위 링크를 클릭하세요!
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            const serverOk = await checkServer();
+            if (!serverOk) {
+                document.getElementById('content').innerHTML = `
+                    <div class="error">
+                        <h2>⚠️ 서버 연결 실패</h2>
+                        <p>마크다운 파일을 불러올 수 없습니다. 서버가 실행 중인지 확인해주세요.</p>
+                        <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
+                        <h3>서버 실행 방법:</h3>
+                        <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;"><code>cd docs
+python3 -m http.server 8000</code></pre>
+                    </div>
+                `;
+                return;
+            }
+
+            renderSidebar();
+            
+            // URL 해시에서 파일 로드 (예: #01)
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                const doc = documents.find(d => d.id === hash);
+                if (doc) {
+                    loadDocument(doc.file);
+                    const item = document.querySelector(`[data-id="${hash}"]`);
+                    if (item) item.classList.add('active');
+                    return;
+                }
+            }
+            
+            // 기본으로 첫 번째 문서 로드
+            if (documents.length > 0) {
+                loadDocument(documents[0].file);
+                document.querySelector('[data-id="01"]').classList.add('active');
+            }
+        }
+
+        // 페이지 로드 시 초기화
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
+
