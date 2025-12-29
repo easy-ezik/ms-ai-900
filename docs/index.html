@@ -70,6 +70,15 @@
             left: 0;
             top: 0;
             z-index: 100;
+            transition: transform 0.3s ease, width 0.3s ease, visibility 0.3s ease;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+            visibility: hidden;
+            pointer-events: none;
+            width: 0;
+            overflow: hidden;
         }
 
         .sidebar-header {
@@ -81,6 +90,24 @@
             position: sticky;
             top: 0;
             z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .sidebar-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .sidebar-list {
@@ -114,6 +141,46 @@
             padding: 40px;
             max-width: 900px;
             background: #fff;
+            transition: margin-left 0.3s ease, max-width 0.3s ease;
+        }
+
+        .content.sidebar-hidden {
+            margin-left: 0;
+            max-width: 100%;
+            padding-left: 70px; /* 사이드바 표시 버튼 공간 확보 */
+        }
+
+        /* 사이드바가 숨겨졌을 때 표시할 토글 버튼 */
+        .sidebar-show-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #0078d4;
+            color: white;
+            border: none;
+            font-size: 20px;
+            padding: 8px 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 101;
+            display: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: background 0.2s, opacity 0.3s ease, transform 0.2s;
+            opacity: 0;
+            width: 44px;
+            height: 44px;
+            line-height: 1;
+            text-align: center;
+        }
+
+        .sidebar-show-btn:hover {
+            background: #106ebe;
+            transform: scale(1.1);
+        }
+
+        .sidebar-show-btn.visible {
+            display: block;
+            opacity: 1;
         }
 
         .content h1 {
@@ -208,9 +275,25 @@
                 max-height: 300px;
             }
 
+            .sidebar.hidden {
+                transform: none;
+                display: none;
+            }
+
             .content {
                 margin-left: 0;
                 padding: 20px;
+            }
+
+            .content.sidebar-hidden {
+                margin-left: 0;
+                padding-left: 70px; /* 모바일에서도 버튼 공간 확보 */
+            }
+
+            .sidebar-show-btn {
+                display: block !important;
+                top: 10px;
+                left: 10px;
             }
 
             .content h1 {
@@ -250,12 +333,18 @@
 <body>
     <div class="container">
         <!-- 사이드바 -->
-        <nav class="sidebar">
-            <div class="sidebar-header">📚 MS AI-900 학습 자료</div>
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <span>📚 MS AI-900 학습 자료</span>
+                <button class="sidebar-toggle" id="sidebarToggle" title="사이드바 숨기기">☰</button>
+            </div>
             <div class="sidebar-list" id="sidebarList">
                 <!-- 동적으로 생성됨 -->
             </div>
         </nav>
+
+        <!-- 사이드바 표시 버튼 (숨겨졌을 때만 표시) -->
+        <button class="sidebar-show-btn" id="sidebarShowBtn" title="사이드바 표시">☰</button>
 
         <!-- 메인 콘텐츠 -->
         <main class="content" id="content">
@@ -358,6 +447,50 @@
             }
         }
 
+        // 사이드바 토글 기능
+        function initSidebarToggle() {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebarShowBtn = document.getElementById('sidebarShowBtn');
+            const content = document.getElementById('content');
+
+            // 로컬 스토리지에서 사이드바 상태 불러오기
+            const isHidden = localStorage.getItem('sidebarHidden') === 'true';
+            if (isHidden) {
+                sidebar.classList.add('hidden');
+                content.classList.add('sidebar-hidden');
+                sidebarShowBtn.classList.add('visible');
+            }
+
+            // 사이드바 숨기기
+            function hideSidebar() {
+                sidebar.classList.add('hidden');
+                content.classList.add('sidebar-hidden');
+                sidebarShowBtn.classList.add('visible');
+                localStorage.setItem('sidebarHidden', 'true');
+            }
+
+            // 사이드바 표시
+            function showSidebar() {
+                sidebar.classList.remove('hidden');
+                content.classList.remove('sidebar-hidden');
+                sidebarShowBtn.classList.remove('visible');
+                localStorage.setItem('sidebarHidden', 'false');
+            }
+
+            // 토글 버튼 클릭 이벤트
+            sidebarToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                hideSidebar();
+            });
+
+            // 사이드바 표시 버튼 클릭 이벤트
+            sidebarShowBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showSidebar();
+            });
+        }
+
         // 초기화
         async function init() {
             // 서버 확인
@@ -419,7 +552,10 @@ python3 -m http.server 8000</code></pre>
         }
 
         // 페이지 로드 시 초기화
-        window.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('DOMContentLoaded', () => {
+            initSidebarToggle();
+            init();
+        });
     </script>
 </body>
 </html>
