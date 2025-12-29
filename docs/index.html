@@ -175,8 +175,15 @@
 
         @media (max-width: 768px) {
             .sidebar-show-btn {
-                display: block !important;
                 opacity: 1 !important;
+            }
+
+            .sidebar-show-btn.visible {
+                display: block !important;
+            }
+
+            .sidebar-show-btn:not(.visible) {
+                display: none !important;
             }
         }
 
@@ -501,7 +508,7 @@
             // 모바일 여부 확인
             const isMobile = window.innerWidth <= 768;
 
-            // 모바일에서는 기본적으로 숨김 및 버튼 항상 표시
+            // 모바일에서는 기본적으로 숨김 및 버튼 표시
             if (isMobile) {
                 sidebar.classList.add('hidden');
                 content.classList.add('sidebar-hidden');
@@ -523,6 +530,11 @@
                 sidebar.classList.add('hidden');
                 content.classList.add('sidebar-hidden');
                 sidebarShowBtn.classList.add('visible');
+                // 모바일에서도 버튼 표시
+                if (isMobile) {
+                    sidebarShowBtn.style.display = 'block';
+                    sidebarShowBtn.style.opacity = '1';
+                }
                 if (sidebarOverlay) {
                     sidebarOverlay.classList.remove('visible');
                 }
@@ -536,6 +548,11 @@
                 sidebar.classList.remove('hidden');
                 content.classList.remove('sidebar-hidden');
                 sidebarShowBtn.classList.remove('visible');
+                // 모바일에서도 버튼 숨기기
+                if (isMobile) {
+                    sidebarShowBtn.style.display = 'none';
+                    sidebarShowBtn.style.opacity = '0';
+                }
                 if (sidebarOverlay && isMobile) {
                     sidebarOverlay.classList.add('visible');
                 }
