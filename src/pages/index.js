@@ -24,6 +24,11 @@ function HomepageHeader() {
               to="/docs/intro">
               📚 학습 시작하기
             </Link>
+            <Link
+              className="button button--secondary button--lg"
+              to="/docs/short/Azure의_AI_소개">
+              📖 요약본 보러가기
+            </Link>
           </div>
         </div>
         <div className={styles.heroStats}>
@@ -48,20 +53,20 @@ function HomepageHeader() {
 
 function QuickLinks() {
   const quickLinks = [
-    { label: 'Azure의 AI 소개', link: '/docs/Azure의_AI_소개' },
-    { label: 'Microsoft Foundry에서 AI 시작', link: '/docs/Microsoft_Foundry에서_AI_시작' },
-    { label: '기계 학습 개념 소개', link: '/docs/기계_학습_개념_소개' },
-    { label: 'Azure에서 기계 학습 시작', link: '/docs/Azure에서_기계_학습_시작' },
-    { label: '생성형 AI 및 Agent 소개', link: '/docs/생성형_AI_및_Agent_소개' },
-    { label: 'Microsoft Foundry에서 생성형 AI 시작', link: '/docs/Microsoft_Foundry에서_생성형_AI를_시작하기' },
-    { label: '텍스트 분석 개념 소개', link: '/docs/텍스트_분석_개념_소개' },
-    { label: 'Microsoft Foundry에서 자연어 처리 시작', link: '/docs/Microsoft_Foundry에서_자연어_처리_시작' },
-    { label: 'AI 음성 개념 소개', link: '/docs/AI_음성_개념_소개' },
-    { label: ' Microsoft Foundry에서 음성 시작', link: '/docs/Microsoft_Foundry에서_음성_시작' },
-    { label: ' Computer Vision 개념 소개', link: '/docs/Computer_Vision_개념_소개' },
-    { label: ' Microsoft Foundry에서 Computer Vision 시작', link: '/docs/Microsoft_Foundry에서_Computer_Vision_시작' },
-    { label: ' AI 기반 정보 추출 개념 소개', link: '/docs/AI_기반_정보_추출_개념_소개' },
-    { label: ' Microsoft Foundry에서 AI 기반 정보 추출 시작', link: '/docs/Microsoft_Foundry에서_AI_기반_정보_추출_시작' },
+    { label: 'Azure의 AI 소개', link: '/docs/short/Azure의_AI_소개' },
+    { label: 'Microsoft Foundry에서 AI 시작', link: '/docs/short/Microsoft_Foundry에서_AI_시작' },
+    { label: '기계 학습 개념 소개', link: '/docs/short/기계_학습_개념_소개' },
+    { label: 'Azure에서 기계 학습 시작', link: '/docs/short/Azure에서_기계_학습_시작' },
+    { label: '생성형 AI 및 Agent 소개', link: '/docs/short/생성형_AI_및_Agent_소개' },
+    { label: 'Microsoft Foundry에서 생성형 AI 시작', link: '/docs/short/Microsoft_Foundry에서_생성형_AI를_시작하기' },
+    { label: '텍스트 분석 개념 소개', link: '/docs/short/텍스트_분석_개념_소개' },
+    { label: 'Microsoft Foundry에서 자연어 처리 시작', link: '/docs/short/Microsoft_Foundry에서_자연어_처리_시작' },
+    { label: 'AI 음성 개념 소개', link: '/docs/short/AI_음성_개념_소개' },
+    { label: 'Microsoft Foundry에서 음성 시작', link: '/docs/short/Microsoft_Foundry에서_음성_시작' },
+    { label: 'Computer Vision 개념 소개', link: '/docs/short/Computer_Vision_개념_소개' },
+    { label: 'Microsoft Foundry에서 Computer Vision 시작', link: '/docs/short/Microsoft_Foundry에서_Computer_Vision_시작' },
+    { label: 'AI 기반 정보 추출 개념 소개', link: '/docs/short/AI_기반_정보_추출_개념_소개' },
+    { label: 'Microsoft Foundry에서 AI 기반 정보 추출 시작', link: '/docs/short/Microsoft_Foundry에서_AI_기반_정보_추출_시작' },
   ];
 
   return (
